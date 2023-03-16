@@ -1,3 +1,7 @@
+/**
+ * Allow a user to authenticate to the application
+ * @returns {ReactElement}
+ */
 export const SignIn = () => {
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">

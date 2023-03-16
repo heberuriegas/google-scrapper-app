@@ -1,3 +1,7 @@
+/**
+ * Allow a user to create an account
+ * @returns {ReactElement}
+ */
 export const SignUp = () => {
   return (
     <div className="flex items-center min-h-screen bg-white dark:bg-gray-900">

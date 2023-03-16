@@ -1,7 +1,14 @@
+import { ReactElement } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
-export const RequireAuth = ({ children }: { children: JSX.Element }) => {
+/**
+ * Redirect to /sign_in if a user is not authenticated
+ * @param obj
+ * @param {ReactElement} obj.children
+ * @returns {ReactElement}
+ */
+export const RequireAuth = ({ children }: { children: ReactElement }) => {
   let auth = useAuth();
   let location = useLocation();
 
