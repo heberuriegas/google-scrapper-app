@@ -1,5 +1,9 @@
 import { createContext, useState } from "react";
-import { signIn as signInApi, signOut as signOutApi } from "../api/auth.api";
+import {
+  signIn as signInApi,
+  signOut as signOutApi,
+  signUp as signUpApi,
+} from "../api/auth.api";
 
 interface AuthContextType {
   user: any;
@@ -14,25 +18,35 @@ interface AuthContextType {
 export const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  let [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<any>(null);
 
-  let signIn = async (
+  const signUp = async (
+    email: string,
+    password: string,
+    callback: VoidFunction
+  ) => {
+    const newUser = await signUpApi(email, password);
+    setUser(newUser);
+    if (callback) callback();
+  };
+
+  const signIn = async (
     email: string,
     password: string,
     callback: VoidFunction
   ) => {
     const newUser = await signInApi(email, password);
     setUser(newUser);
-    callback();
+    if (callback) callback();
   };
 
-  let signOut = async (callback: VoidFunction) => {
+  const signOut = async (callback: VoidFunction) => {
     await signOutApi();
     setUser(null);
-    callback();
+    if (callback) callback();
   };
 
-  let value = { user, signIn, signOut };
+  const value = { user, signIn, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
