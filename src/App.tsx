@@ -1,24 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from "react-router-dom";
+import "./App.scss";
+import { Layout } from "./components/Layout";
+import { RequireAuth } from "./features/auth/components/RequireAuth";
+import { SignIn } from "./features/auth/screens/SignIn";
+import { SignUp } from "./features/auth/screens/SignUp";
+import { ListKeywords } from "./features/searchKeywords/screens/ListKeywords";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div id="app" data-testid="app">
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/sign_in" element={<SignIn />} />
+          <Route path="/sign_up" element={<SignUp />} />
+          <Route
+            path="/"
+            element={
+              <RequireAuth>
+                <ListKeywords />
+              </RequireAuth>
+            }
+          />
+        </Route>
+      </Routes>
     </div>
   );
 }
