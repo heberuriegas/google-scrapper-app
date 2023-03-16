@@ -1,52 +1,41 @@
 import { createContext, useState } from "react";
 import {
+  SignInParams,
+  SignUpParams,
   signIn as signInApi,
   signOut as signOutApi,
   signUp as signUpApi,
 } from "../api/auth.api";
+import { User } from "../users/user.types";
 
 interface AuthContextType {
-  user: any;
-  signIn: (
-    email: string,
-    password: string,
-    callback: VoidFunction
-  ) => Promise<void>;
-  signOut: (callback: VoidFunction) => Promise<void>;
+  user?: User;
+  signUp: (variables: SignUpParams) => Promise<void>;
+  signIn: (variables: SignInParams) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>(null!);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User>();
 
-  const signUp = async (
-    email: string,
-    password: string,
-    callback: VoidFunction
-  ) => {
-    const newUser = await signUpApi(email, password);
+  const signUp = async (variables: SignUpParams) => {
+    const newUser = await signUpApi(variables);
     setUser(newUser);
-    if (callback) callback();
   };
 
-  const signIn = async (
-    email: string,
-    password: string,
-    callback: VoidFunction
-  ) => {
-    const newUser = await signInApi(email, password);
+  const signIn = async (variables: SignInParams) => {
+    const newUser = await signInApi(variables);
     setUser(newUser);
-    if (callback) callback();
   };
 
-  const signOut = async (callback: VoidFunction) => {
+  const signOut = async () => {
     await signOutApi();
-    setUser(null);
-    if (callback) callback();
+    setUser(undefined);
   };
 
-  const value = { user, signIn, signOut };
+  const value = { user, signUp, signIn, signOut };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
