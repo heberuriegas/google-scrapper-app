@@ -41,7 +41,7 @@ axiosInstance.interceptors.request.use(
     request = decamelizeData(request);
 
     const credentials = storageCredentials();
-    if (credentials)
+    if (credentials && request.headers)
       request.headers["Authorization"] = `Bearer ${credentials.accessToken}`;
     return request;
   },

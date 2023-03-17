@@ -1,4 +1,4 @@
-import { AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { camelizeKeys, decamelizeKeys } from "humps";
 
 export type CustomAxiosResponse = AxiosResponse<any> & {
@@ -8,7 +8,7 @@ export type CustomAxiosResponse = AxiosResponse<any> & {
   };
 };
 
-export type CustomAxiosRequestConfig = InternalAxiosRequestConfig<any> & {
+export type CustomAxiosRequestConfig = AxiosRequestConfig<any> & {
   config?: {
     skipTransformData?: boolean;
     skipTransformParams?: boolean;
@@ -18,10 +18,13 @@ export type CustomAxiosRequestConfig = InternalAxiosRequestConfig<any> & {
   };
 };
 
-export const addBaseHeaders = (config: InternalAxiosRequestConfig<any>) => {
-  config.headers["Content-Type"] = "application/json";
-  config.headers["Accept"] = "application/json";
-  config.headers["Client-Id"] = process.env.REACT_APP_CLIENT_ID;
+export const addBaseHeaders = (config: AxiosRequestConfig<any>) => {
+  if (config.headers) {
+    config.headers["Content-Type"] = "application/json";
+    config.headers["Accept"] = "application/json";
+    if (process.env.REACT_APP_CLIENT_ID)
+      config.headers["Client-Id"] = process.env.REACT_APP_CLIENT_ID;
+  }
   return config;
 };
 

@@ -2,6 +2,10 @@ import { screen } from "@testing-library/react";
 import { renderWithRouter } from "../__tests__/helpers/renderWithRouter";
 import App from "./App";
 
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
+new MockAdapter(axios);
+
 it("renders app component", () => {
   renderWithRouter(<App />, { route: "/" });
   const linkElement = screen.getByTestId("app");
