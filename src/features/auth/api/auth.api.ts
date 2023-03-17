@@ -1,5 +1,9 @@
 import { authAxiosInstance, axiosInstance } from "../../../clients/axios";
-import { Credentials, storeCredentialsHeaders } from "../helpers/credentials";
+import {
+  Credentials,
+  storageCredentials,
+  storeCredentialsHeaders,
+} from "../helpers/credentials";
 import { User } from "../users/user.types";
 
 export const me = async () => {
@@ -23,12 +27,18 @@ export const signIn = async (variables: SignInParams) => {
   return result.data;
 };
 
+interface SignOutParams {
+  client_id: string;
+  token: string;
+}
 export const signOut = async () => {
-  return new Promise((response) => {
-    setTimeout(() => {
-      response(null);
-    }, 100);
-  });
+  const credentials = storageCredentials();
+  if (credentials) {
+    await authAxiosInstance.post<SignOutParams>("/oauth/revoke", {
+      client_id: process.env.REACT_APP_CLIENT_ID,
+      token: credentials.accessToken,
+    });
+  }
 };
 
 export interface SignUpParams {

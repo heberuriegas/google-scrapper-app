@@ -32,13 +32,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     (async () => {
-      const credentials = storageCredentials();
-      if (credentials) {
-        setUserLoading(true);
-        const newUser = await me();
-        setUser(newUser);
+      try {
+        const credentials = storageCredentials();
+        if (credentials) {
+          setUserLoading(true);
+          const newUser = await me();
+          setUser(newUser);
+        }
+      } finally {
+        setUserLoading(false);
       }
-      setUserLoading(false);
     })();
   }, []);
 
