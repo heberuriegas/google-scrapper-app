@@ -28,7 +28,7 @@ export const Header = () => {
                 href="/"
                 data-te-nav-link-ref
               >
-                Keywords
+                Keywords Search
               </a>
             </li>
           </ul>
