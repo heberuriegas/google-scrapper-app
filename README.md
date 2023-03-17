@@ -5,6 +5,8 @@ To setup run the commands below:
 ```
 cp .env.sample .env
 
+yarn
+
 yarn start
 ```
 
