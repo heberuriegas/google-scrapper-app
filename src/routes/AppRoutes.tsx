@@ -8,9 +8,7 @@ import { ListKeywords } from "../features/searchKeywords/screens/ListKeywords";
 
 export const AppRoutes = () => {
   const { userLoading } = useAuth();
-  return userLoading ? (
-    <h1>Loading</h1>
-  ) : (
+  return !userLoading ? (
     <Routes>
       <Route element={<Layout />}>
         <Route
@@ -25,5 +23,5 @@ export const AppRoutes = () => {
         <Route path="/sign_up" element={<SignUp />} />
       </Route>
     </Routes>
-  );
+  ) : null;
 };
