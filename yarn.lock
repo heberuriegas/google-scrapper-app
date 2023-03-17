@@ -4449,6 +4449,13 @@ file-loader@^6.2.0:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
+file-selector@0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/file-selector/-/file-selector-0.2.4.tgz#7b98286f9dbb9925f420130ea5ed0a69238d4d80"
+  integrity sha512-ZDsQNbrv6qRi1YTDOEWzf5J2KjZ9KMI1Q2SGeTkCJmNNW25Jg4TW4UMcmoqcg4WrAyKRcpBXdbWRxkfrOzVRbA==
+  dependencies:
+    tslib "^2.0.3"
+
 filelist@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/filelist/-/filelist-1.0.4.tgz#f78978a1e944775ff9e62e744424f215e58352b5"
@@ -8840,6 +8847,13 @@ url-parse@^1.5.3:
   dependencies:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
+
+use-file-picker@^1.5.2:
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/use-file-picker/-/use-file-picker-1.5.2.tgz#2e273ed6c2614b956d0f5b7a7e65b2b59b672187"
+  integrity sha512-quBXHlUqjadSHj62vADzWYazHrH0oJio5u9GlxAG71vFYfS9KFNm1tFtZ3IMKxUMg9ADKGFg1V8caLWF5ajrDQ==
+  dependencies:
+    file-selector "0.2.4"
 
 util-deprecate@^1.0.1, util-deprecate@^1.0.2, util-deprecate@~1.0.1:
   version "1.0.2"
