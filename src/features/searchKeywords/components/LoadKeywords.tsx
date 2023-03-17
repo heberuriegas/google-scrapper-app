@@ -1,9 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useFilePicker } from "use-file-picker";
 import { Spinner } from "../../../components/Spinner";
-import { createSearchKeywords } from "../api/searchKeywords.api";
+import { usePusher } from "../../../hooks/usePusher";
+import {
+  activeProcesses,
+  createSearchKeywords,
+} from "../api/searchKeywords.api";
 
 export const LoadKeywords = () => {
+  const pusherChannel = usePusher();
   const [loading, setLoading] = useState<boolean>(false);
   const [openFileSelector, { filesContent, loading: fileLoading }] =
     useFilePicker({
@@ -21,18 +26,43 @@ export const LoadKeywords = () => {
 
   useEffect(() => {
     (async () => {
+      const processes = await activeProcesses();
+      if (processes > 0) setLoading(true);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       if (keywords.length > 0) {
         setLoading(true);
         try {
           await createSearchKeywords(keywords);
         } catch (err) {
           // TODO: Toast
-        } finally {
           setLoading(false);
         }
       }
     })();
   }, [keywords]);
+
+  const startLoading = useCallback(() => {
+    setLoading(true);
+  }, []);
+
+  const stopLoading = useCallback(() => {
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (pusherChannel) {
+      pusherChannel.bind("start-keyword-search", startLoading);
+      pusherChannel.bind("stop-keyword-search", stopLoading);
+      return () => {
+        pusherChannel.unbind("start-keyword-search", startLoading);
+        pusherChannel.unbind("stop-keyword-search", stopLoading);
+      };
+    }
+  }, [pusherChannel, startLoading, stopLoading]);
 
   return (
     <button

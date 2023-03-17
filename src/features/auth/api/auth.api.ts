@@ -4,7 +4,7 @@ import {
   storageCredentials,
   storeCredentialsHeaders,
 } from "../helpers/credentials";
-import { User } from "../users/user.types";
+import { User } from "../types/user.types";
 
 export const me = async () => {
   const result = await axiosInstance.get<void, { data: User }>("/me");

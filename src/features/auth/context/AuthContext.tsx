@@ -8,7 +8,7 @@ import {
   signUp as signUpApi,
 } from "../api/auth.api";
 import { storageCredentials, storeCredentials } from "../helpers/credentials";
-import { User } from "../users/user.types";
+import { User } from "../types/user.types";
 
 interface AuthContextType {
   user?: User;
