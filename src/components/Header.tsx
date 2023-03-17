@@ -14,10 +14,6 @@ export const Header = () => {
           id="navbarSupportedContent1"
           data-te-collapse-item
         >
-          <a
-            className="mt-2 mr-2 flex items-center text-neutral-900 hover:text-neutral-900 focus:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-400 dark:focus:text-neutral-400 lg:mt-0"
-            href="#"
-          ></a>
           <ul
             className="list-style-none mr-auto flex flex-col pl-0 lg:flex-row"
             data-te-navbar-nav-ref
