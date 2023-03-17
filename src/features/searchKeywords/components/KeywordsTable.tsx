@@ -28,7 +28,7 @@ export const KeywordsTable = () => {
     })();
   }, [page]);
 
-  return (
+  return keywords && keywords.length > 0 ? (
     <div>
       <div className="flex flex-col bg-white rounded-lg">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -118,6 +118,10 @@ export const KeywordsTable = () => {
           Next page
         </button>
       </div>
+    </div>
+  ) : (
+    <div className="flex flex-col bg-white items-center p-5 rounded-lg">
+      <h1 className="text-lg">No keyword data, please upload a csv file.</h1>
     </div>
   );
 };
