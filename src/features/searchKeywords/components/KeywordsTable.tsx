@@ -82,7 +82,17 @@ export const KeywordsTable = () => {
                         {k.createdAt}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">
-                        <button>Show source code</button>
+                        <a
+                          href={
+                            process.env.REACT_APP_API_HOST +
+                            "/api/keyword_searches/" +
+                            k.id
+                          }
+                          rel="noreferrer"
+                          target="_blank"
+                        >
+                          Show source code
+                        </a>
                       </td>
                     </tr>
                   ))}
