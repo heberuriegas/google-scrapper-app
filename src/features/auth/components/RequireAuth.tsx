@@ -9,14 +9,10 @@ import { useAuth } from "../hooks/useAuth";
  * @returns {ReactElement}
  */
 export const RequireAuth = ({ children }: { children: ReactElement }) => {
-  let auth = useAuth();
+  let { user } = useAuth();
   let location = useLocation();
 
-  if (!auth?.user) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
+  if (!user) {
     return <Navigate to="/sign_in" state={{ from: location }} replace />;
   }
 

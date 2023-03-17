@@ -1,24 +1,46 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import {
   SignInParams,
   SignUpParams,
+  me,
   signIn as signInApi,
   signOut as signOutApi,
   signUp as signUpApi,
 } from "../api/auth.api";
+import { storageCredentials, storeCredentials } from "../helpers/credentials";
 import { User } from "../users/user.types";
 
 interface AuthContextType {
   user?: User;
+  userLoading: boolean;
   signUp: (variables: SignUpParams) => Promise<void>;
   signIn: (variables: SignInParams) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType>(null!);
+export const AuthContext = createContext<AuthContextType>({
+  user: undefined,
+  userLoading: true,
+  signUp: async () => {},
+  signIn: async () => {},
+  signOut: async () => {},
+});
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>();
+  const [userLoading, setUserLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    (async () => {
+      const credentials = storageCredentials();
+      if (credentials) {
+        setUserLoading(true);
+        const newUser = await me();
+        setUser(newUser);
+      }
+      setUserLoading(false);
+    })();
+  }, []);
 
   const signUp = async (variables: SignUpParams) => {
     const newUser = await signUpApi(variables);
@@ -26,7 +48,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const signIn = async (variables: SignInParams) => {
-    const newUser = await signInApi(variables);
+    const credentials = await signInApi(variables);
+    storeCredentials(credentials);
+    const newUser = await me();
     setUser(newUser);
   };
 
@@ -35,7 +59,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(undefined);
   };
 
-  const value = { user, signUp, signIn, signOut };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        userLoading,
+        signUp,
+        signIn,
+        signOut,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
