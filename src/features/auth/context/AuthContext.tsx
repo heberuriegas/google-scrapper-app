@@ -7,7 +7,11 @@ import {
   signOut as signOutApi,
   signUp as signUpApi,
 } from "../api/auth.api";
-import { storageCredentials, storeCredentials } from "../helpers/credentials";
+import {
+  clearCredentials,
+  storageCredentials,
+  storeCredentials,
+} from "../helpers/credentials";
 import { User } from "../types/user.types";
 
 interface AuthContextType {
@@ -26,10 +30,17 @@ export const AuthContext = createContext<AuthContextType>({
   signOut: async () => {},
 });
 
+/**
+ * Provide user and auth operations like sign up, sign in and sign out.
+ * @param {Object} obj
+ * @param {ReactElement} obj.children
+ * @returns {Provider}
+ */
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User>();
   const [userLoading, setUserLoading] = useState<boolean>(true);
 
+  // Fill initial user with me endpoint
   useEffect(() => {
     (async () => {
       try {
@@ -45,11 +56,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     })();
   }, []);
 
+  // Create a user and set new user
   const signUp = async (variables: SignUpParams) => {
     const newUser = await signUpApi(variables);
     setUser(newUser);
   };
 
+  // Create a user, store credentials and set new user
   const signIn = async (variables: SignInParams) => {
     const credentials = await signInApi(variables);
     storeCredentials(credentials);
@@ -57,8 +70,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setUser(newUser);
   };
 
+  // Revoke access token, clear credentials and clear user
   const signOut = async () => {
     await signOutApi();
+    clearCredentials();
     setUser(undefined);
   };
 

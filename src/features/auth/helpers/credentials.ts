@@ -30,6 +30,10 @@ export const storeCredentials = (credentials: Credentials) => {
   localStorage.setItem("credentials", JSON.stringify(credentials));
 };
 
+export const clearCredentials = () => {
+  localStorage.removeItem("credentials");
+};
+
 export const storageCredentials = () => {
   const credentials = localStorage.getItem("credentials");
   if (credentials) return JSON.parse(credentials) as Credentials;
