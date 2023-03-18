@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AxiosError } from "axios";
-import { useState } from "react";
+import { ReactElement, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as yup from "yup";
@@ -14,11 +14,16 @@ type SignInInputs = {
   password: string;
 };
 
+/**
+ * Form that allow a user to sign in with email and password using react hook form
+ * @returns {ReactElement}
+ */
 export const SignInForm = () => {
   const { signIn } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // Form validations
   const schema = yup
     .object({
       email: yup.string().email().required(),
@@ -33,6 +38,12 @@ export const SignInForm = () => {
     formState: { errors },
   } = useForm<SignInInputs>({ resolver: yupResolver(schema) });
 
+  /**
+   * Call sign in api call or set form validation errors
+   * @param {Object} obj
+   * @param {string} obj.email
+   * @param {string} obj.password
+   */
   const onSubmit: SubmitHandler<SignInInputs> = async ({ email, password }) => {
     try {
       setLoading(true);

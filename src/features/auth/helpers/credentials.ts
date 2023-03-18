@@ -5,7 +5,10 @@ export interface Credentials {
   refreshToken: string;
   tokenType: string;
 }
-
+/**
+ * Detect if a set of headers includes credentials and store them to local storage
+ * @param {Object} headers
+ */
 export const storeCredentialsHeaders = (headers: Record<string, string>) => {
   if (headers["access-token"]) {
     const accessToken = headers["access-token"];
@@ -26,14 +29,25 @@ export const storeCredentialsHeaders = (headers: Record<string, string>) => {
   }
 };
 
+/**
+ * Stringify a credentials object and save to local storage
+ * @param {Credentials} credentials
+ */
 export const storeCredentials = (credentials: Credentials) => {
   localStorage.setItem("credentials", JSON.stringify(credentials));
 };
 
+/**
+ * Clear credentials from local storage
+ */
 export const clearCredentials = () => {
   localStorage.removeItem("credentials");
 };
 
+/**
+ * Read credentials from local storage
+ * @returns {Credentials}
+ */
 export const storageCredentials = () => {
   const credentials = localStorage.getItem("credentials");
   if (credentials) return JSON.parse(credentials) as Credentials;

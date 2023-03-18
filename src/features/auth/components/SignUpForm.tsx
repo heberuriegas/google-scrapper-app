@@ -15,11 +15,16 @@ type SignUpInputs = {
   passwordConfirmation: string;
 };
 
+/**
+ * Form that allow a user to create a user with email and password using react hook form
+ * @returns {ReactElement}
+ */
 export const SignUpForm = () => {
   const { signUp } = useAuth();
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  // Form validations
   const schema = yup
     .object({
       email: yup.string().email().required(),
@@ -36,6 +41,12 @@ export const SignUpForm = () => {
     formState: { errors },
   } = useForm<SignUpInputs>({ resolver: yupResolver(schema) });
 
+  /**
+   * Call sign in api call or set form validation errors
+   * @param {Object} obj
+   * @param {string} obj.email
+   * @param {string} obj.password
+   */
   const onSubmit: SubmitHandler<SignUpInputs> = async ({ email, password }) => {
     try {
       setLoading(true);
@@ -51,7 +62,10 @@ export const SignUpForm = () => {
           });
         });
       } else {
-        // TODO: Toast error
+        setError("passwordConfirmation", {
+          type: "custom",
+          message: "There is something wrong, please try later.",
+        });
       }
     } finally {
       setLoading(false);
