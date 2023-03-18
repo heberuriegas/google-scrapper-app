@@ -18,17 +18,27 @@ export type CustomAxiosRequestConfig = AxiosRequestConfig<any> & {
   };
 };
 
-export const addBaseHeaders = (config: AxiosRequestConfig<any>) => {
-  if (config.headers) {
-    config.headers["Content-Type"] = "application/json";
-    config.headers["Accept"] = "application/json";
+/**
+ * Add Content-Type, Accept and Client-Id headers
+ * @param {Object} request
+ * @returns {Object}
+ */
+export const addBaseHeaders = (request: AxiosRequestConfig<any>) => {
+  if (request.headers) {
+    request.headers["Content-Type"] = "application/json";
+    request.headers["Accept"] = "application/json";
     if (process.env.REACT_APP_CLIENT_ID)
-      config.headers["Client-Id"] = process.env.REACT_APP_CLIENT_ID;
+      request.headers["Client-Id"] = process.env.REACT_APP_CLIENT_ID;
   }
-  return config;
+  return request;
 };
 
-export const camelizeResponse = (response: CustomAxiosResponse) => {
+/**
+ * Camelize all response data keys
+ * @param {Object} response
+ * @returns {Object}
+ */
+export const camelizeData = (response: CustomAxiosResponse) => {
   if (response.data) {
     response.data = camelizeKeys(response.data, (key, convert) => {
       return (response.config &&
@@ -42,6 +52,11 @@ export const camelizeResponse = (response: CustomAxiosResponse) => {
   return response;
 };
 
+/**
+ * Decamelize all request params keys
+ * @param {Object} request
+ * @returns {Object}
+ */
 export const decamelizeParams = (request: CustomAxiosRequestConfig) => {
   if (request.params) {
     request.params = decamelizeKeys(request.params, (key, convert) => {
@@ -56,6 +71,11 @@ export const decamelizeParams = (request: CustomAxiosRequestConfig) => {
   return request;
 };
 
+/**
+ * Decamelize all request data keys
+ * @param {Object} request
+ * @returns {Object}
+ */
 export const decamelizeData = (request: CustomAxiosRequestConfig) => {
   if (request.data) {
     request.data = decamelizeKeys(request.data, (key, convert) => {
