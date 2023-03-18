@@ -31,7 +31,7 @@ export const KeywordsTable = () => {
   }, [page]);
 
   return keywords && keywords.length > 0 ? (
-    <div>
+    <div data-testid="keyword-table">
       <div className="flex flex-col bg-white rounded-lg">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -64,7 +64,11 @@ export const KeywordsTable = () => {
                 </thead>
                 <tbody>
                   {keywords?.map((k) => (
-                    <tr key={k.id} className="border-b dark:border-neutral-500">
+                    <tr
+                      data-testid="keyword-row"
+                      key={k.id}
+                      className="border-b dark:border-neutral-500"
+                    >
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
                         {k.id}
                       </td>

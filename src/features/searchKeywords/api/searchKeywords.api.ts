@@ -3,7 +3,8 @@ import { KeywordSearch } from "../types/keywordSearch.types";
 
 export const findKeywords = async (offset: number = 0, limit: number = 10) => {
   const results = await axiosInstance.get<KeywordSearch[]>(
-    `/keyword_searches?offset=${offset}&limit=${limit}`
+    "/keyword_searches",
+    { params: { offset, limit } }
   );
 
   return results?.data;
