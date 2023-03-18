@@ -1,5 +1,3 @@
-import { ReactElement } from "react";
-
 /**
  * Spinner for loading events
  * @returns {ReactElement}
