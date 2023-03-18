@@ -1,6 +1,10 @@
 import Pusher, * as PusherTypes from "pusher-js";
 import { useEffect, useState } from "react";
 
+/**
+ * Creates a pusher client and returns a subscribed channel
+ * @returns {PusherTypes.Channel}
+ */
 export const usePusher = () => {
   const [pusherChannel, setPusherChannel] = useState<PusherTypes.Channel>();
 
