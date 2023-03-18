@@ -3,6 +3,8 @@ import { usePusher } from "../../../hooks/usePusher";
 import { findKeywords } from "../api/searchKeywords.api";
 import { KeywordSearch } from "../types/keywordSearch.types";
 
+const PAGE_SIZE = 10;
+
 export const KeywordsTable = () => {
   const [keywords, setKeywords] = useState<KeywordSearch[]>();
   const [page, setPage] = useState<number>(1);
@@ -23,7 +25,7 @@ export const KeywordsTable = () => {
 
   useEffect(() => {
     (async () => {
-      const newKeywords = await findKeywords((page - 1) * 10);
+      const newKeywords = await findKeywords((page - 1) * PAGE_SIZE, PAGE_SIZE);
       setKeywords(newKeywords);
     })();
   }, [page]);
@@ -111,12 +113,14 @@ export const KeywordsTable = () => {
             Prev page
           </button>
         )}
-        <button
-          className="text-indigo-500"
-          onClick={() => setPage((page) => page + 1)}
-        >
-          Next page
-        </button>
+        {keywords.length >= PAGE_SIZE && (
+          <button
+            className="text-indigo-500"
+            onClick={() => setPage((page) => page + 1)}
+          >
+            Next page
+          </button>
+        )}
       </div>
     </div>
   ) : (
