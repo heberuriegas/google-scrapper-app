@@ -1,7 +1,12 @@
+import { ReactElement } from "react";
 import { useAuth } from "../features/auth/hooks/useAuth";
 
+/**
+ * Header that will show in the main layout
+ * @returns {ReactElement}
+ */
 export const Header = () => {
-  const { signOut } = useAuth();
+  const { user, signOut } = useAuth();
   return (
     <nav
       className="flex-no-wrap relative flex w-full items-center justify-between bg-neutral-100 py-4 shadow-md shadow-black/5 dark:bg-neutral-600 dark:shadow-black/10 lg:flex-wrap lg:justify-start"
@@ -30,6 +35,7 @@ export const Header = () => {
           </ul>
         </div>
         <div className="relative flex items-center">
+          {user && <span className="text-sm mr-2">Hello {user.email}</span>}
           <button
             className="mr-4 text-neutral-500 hover:text-neutral-700 focus:text-neutral-700 disabled:text-black/30 dark:text-neutral-200 dark:hover:text-neutral-300 dark:focus:text-neutral-300 [&.active]:text-black/90 dark:[&.active]:text-neutral-400"
             onClick={signOut}
