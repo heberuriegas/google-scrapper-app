@@ -6,6 +6,10 @@ import { SignIn } from "../features/auth/screens/SignIn";
 import { SignUp } from "../features/auth/screens/SignUp";
 import { ListKeywords } from "../features/searchKeywords/screens/ListKeywords";
 
+/**
+ * If the initial user is loaded create the main application Routes
+ * @returns {React Element | null}
+ */
 export const AppRoutes = () => {
   const { userLoading } = useAuth();
   return !userLoading ? (
