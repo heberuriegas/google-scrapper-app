@@ -5,7 +5,7 @@ import { keywordSearchesFactory } from "../factories/keywordSearches.factory";
 const mock = new MockAdapter(axiosInstance);
 
 export const emptyKeywordSearchesMock = () => {
-  mock
+  return mock
     .onGet("/keyword_searches", { params: { offset: 0, limit: 10 } })
     .reply(200, []);
 };
@@ -17,7 +17,17 @@ export const keywordSearchesMock = (
     keywordSearchesFactory.build({ id: i })
   )
 ) => {
-  mock
+  return mock
     .onGet("/keyword_searches", { params: { offset, limit } })
     .reply(200, data);
+};
+
+export const activeProcessesMock = (size: number = 0) => {
+  return mock.onGet("/active_processes").reply(200, { size });
+};
+
+export const createKeywordSearchesMock = (keywords: string[]) => {
+  return mock
+    .onPost("/keyword_searches", { keywordSearch: { keywords } })
+    .reply(200, {});
 };

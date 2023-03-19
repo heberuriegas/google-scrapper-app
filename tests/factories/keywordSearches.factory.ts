@@ -11,7 +11,13 @@ export const keywordSearchesFactory = Factory.Sync.makeFactory<KeywordSearch>({
   createdAt: faker.date.recent().toISOString(),
 });
 
-export const keywordSearchesListFactory = (size: number) =>
+export const keywordSearchesListFactory = (
+  size: number = Math.floor(Math.random() * 10) + 1
+) =>
   Array.from(Array(size).keys()).map((i) =>
     keywordSearchesFactory.build({ id: i })
   );
+
+export const keywordsFactory = (
+  size: number = Math.floor(Math.random() * 10) + 1
+) => Array.from(Array(size).keys()).map((i) => faker.word.adverb());

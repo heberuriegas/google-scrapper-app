@@ -24,6 +24,13 @@ export const renderWithRouter = (
   };
 };
 
+export const renderWithAct = async (ui: ReactElement) => {
+  // eslint-disable-next-line
+  return act(() => {
+    render(ui);
+  });
+};
+
 export const renderWithAuth = async (ui: ReactElement) => {
   jest.spyOn(useAuth, "useAuth").mockReturnValue({
     user: { id: 1, email: "test@test.com" },
@@ -33,8 +40,5 @@ export const renderWithAuth = async (ui: ReactElement) => {
     signUp: jest.fn(),
   });
 
-  // eslint-disable-next-line
-  await act(() => {
-    render(ui);
-  });
+  await renderWithAct(ui);
 };

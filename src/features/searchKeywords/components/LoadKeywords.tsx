@@ -15,19 +15,21 @@ export const LoadKeywords = () => {
       accept: ".csv",
     });
 
-  const keywords = useMemo(
-    () =>
+  const keywords = useMemo(() => {
+    return (
       filesContent?.[0]?.content
         ?.split("\n")
         ?.splice(1)
-        .filter((s) => s.length > 0) || [],
-    [filesContent]
-  );
+        ?.filter((s) => s.length > 0) || []
+    );
+  }, [filesContent]);
 
   useEffect(() => {
     (async () => {
       const processes = await activeProcesses();
-      if (processes > 0) setLoading(true);
+      if (processes > 0) {
+        setLoading(true);
+      }
     })();
   }, []);
 
@@ -66,12 +68,13 @@ export const LoadKeywords = () => {
 
   return (
     <button
+      data-testid="keyword-load-button"
       onClick={openFileSelector}
       disabled={loading || fileLoading}
       className="flex rounded-lg p-2 mx-1 text-white bg-indigo-500"
     >
       {(loading || fileLoading) && (
-        <div className="mr-1">
+        <div data-testid="spinner" className="mr-1">
           <Spinner />
         </div>
       )}
