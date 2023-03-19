@@ -4,7 +4,7 @@ import { RequireAuth } from "../features/auth/components/RequireAuth";
 import { useAuth } from "../features/auth/hooks/useAuth";
 import { SignIn } from "../features/auth/screens/SignIn";
 import { SignUp } from "../features/auth/screens/SignUp";
-import { ListKeywords } from "../features/searchKeywords/screens/ListKeywords";
+import { ListKeywords } from "../features/keywordsSearch/screens/ListKeywords";
 
 /**
  * If the initial user is loaded create the main application Routes

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import * as Factory from "factory.ts";
-import { KeywordSearch } from "../../src/features/searchKeywords/types/keywordSearch.types";
+import { KeywordSearch } from "../../src/features/keywordsSearch/types/keywordSearch.types";
 
 export const keywordSearchesFactory = Factory.Sync.makeFactory<KeywordSearch>({
   id: Number(Factory.each((i) => i)),
